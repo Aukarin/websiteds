@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://explosion-demos.netlify.app/assets/css/style.css?v4.0">
+    <link rel="stylesheet" href="https://explosion-demos.netlify.app/assets/css/demos.css?v2.0">
+    <style>
+        * {box-sizing: border-box;}
+        
+        body {
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .topnav {
+          overflow: hidden;
+          background-color: #e9e9e9;
+        }
+        
+        .topnav a {
+          float: left;
+          display: block;
+          color: black;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 17px;
+        }
+        
+        .topnav a:hover {
+          background-color: #ddd;
+          color: black;
+        }
+        
+        .topnav a.active {
+          background-color: #2196F3;
+          color: white;
+        }
+        
+        .topnav .search-container {
+          float: right;
+        }
+        
+        .topnav input[type=text] {
+          padding: 6px;
+          margin-top: 8px;
+          font-size: 17px;
+          border: none;
+        }
+        
+        .topnav .search-container button {
+          float: right;
+          padding: 6px;
+          margin-top: 8px;
+          margin-right: 16px;
+          background: #ddd;
+          font-size: 17px;
+          border: none;
+          cursor: pointer;
+        }
+        
+        .topnav .search-container button:hover {
+          background: #ccc;
+        }
+        
+        @media screen and (max-width: 600px) {
+          .topnav .search-container {
+            float: none;
+          }
+          .topnav a, .topnav input[type=text], .topnav .search-container button {
+            float: none;
+            display: block;
+            text-align: left;
+            width: 100%;
+            margin: 0;
+            padding: 14px;
+          }
+          .topnav input[type=text] {
+            border: 1px solid #ccc;  
+          }
+          .example{
+          width:500px;
+           height:250px;
+          }
+
+.highlight{
+  background-color:tomato;
+}
+        }
+        .button {
+ 
+  padding: 5px 32px;
+  
+}
+        </style>
+    <title>Document</title>
+</head>
+<body>
+  
+    
+      <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="top">Top 5</a>
+        <a href="spacy">spacy</a>
+        <a href="fakeN">News</a>
+        <div class="search-container">
+            <form action="/search", method="post">
+              <input type="text" placeholder="Search.." id="searchs" name="searchs">
+              <button type="submit">Submit</button>
+            </form>
+        </div>
+
+      </div>
+      <article data-demo="displacy-ent">
+        <header class="d-header d-wrapper l-wrapper">
+         
+          <div  id="keyy">
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;" onclick="ORG();">ORG  </button> &nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="DATE();">DATE</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="PERSON();">PERSON</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="WORK();">WORK</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="NORP();">NORP</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info"style="width:100px; height:40px;" onclick="CARDINAL();">CARDINAL</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info"style="width:100px; height:40px;" onclick="LANGUAGE();">LANGUAGE</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="ORDINAL();">ORDINAL</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="GPE();">GPE</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="EVENT();">EVENT</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="TIME();">TIME</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="LOC();">LOC</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="PRODUCT();">PRODUCT</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="LAW();">LAW</button>&nbsp&nbsp
+            <button type="button" class="btn btn-info" style="width:100px; height:40px;"onclick="FAC();">FAC</button>&nbsp&nbsp
+          
+            
+         </div>
+        </header>
+       
+      </article>
+      
+      <a id="p" hidden>{{tetag}}</a>
+      <a id="s" >  <h3 >{{text0}}</h3></a>
+      <a id="ta" hidden>{{textp}}</a>
+     
+      
+      <!--
+      <script language="JavaScript" type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
+      <script language="JavaScript" type="text/javascript" src="/js/jquery-ui-personalized-1.5.2.packed.js"></script>
+      <script language="JavaScript" type="text/javascript" src="/js/sprinkle.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="http://lonekorean.github.io/highlight-within-textarea/jquery.highlight-within-textarea.js"></script>
+      <link rel="stylesheet" href="http://lonekorean.github.io/highlight-within-textarea/jquery.highlight-within-textarea.css">
+    -->
+    
+    <script type="text/javascript">
+      const s = document.getElementById("s");
+     
+      s.innerHTML = (s.textContent);
+      const p = document.getElementById("p");
+      
+      const ky = document.getElementById("keyy");
+      const ta = document.getElementById("ta");
+      const p1 =p.innerHTML;
+      const ta1 =ta.innerHTML;
+
+      const words = p1.split("'");
+      const wordsss = ta1.split("'");
+      const asss = JSON.stringify(words);
+      const wstrin = JSON.stringify(wordsss);
+      const textss = [];
+      const textword = [];
+      const tagun = [];
+      const tagword = [];
+      let ko =0;
+      let u =0;
+      let u2 =0;
+      let ko2 =0;
+      let chk = 0;
+      let chk2 = 0;
+     
+
+      for (let i = 0; i < words.length; i++) { 
+        if(words[i] == "["){
+          
+        }else if(words[i] == ", "){
+         
+        }else if(words[i] == "]"){
+          
+        }else{
+          textss[ko] =words[i];
+          ko++;
+        }
+ 
+      }
+      for (let i = 0; i < textss.length; i++) {
+        if(i==0){
+          tagun[u] = textss[i]
+          
+        }else{
+          for (let j = 0; j < tagun.length; j++) {
+            if( textss[i] ==tagun[j] ){
+              chk = 1;
+            }
+          
+          }
+          if(chk==0){
+            u++;
+            tagun[u] = textss[i];
+          }
+          if(chk==1){
+            chk=0;
+          }
+        }
+ 
+      }
+
+
+      for (let i = 0; i < wordsss.length; i++) { 
+        if(wordsss[i] == "["){
+          
+        }else if(wordsss[i] == ", "){
+         
+        }else if(wordsss[i] == "]"){
+          
+        }else{
+          textword[ko2] =wordsss[i];
+          ko2++;
+        }
+ 
+      }
+      for (let i = 0; i < textword.length; i++) {
+        if(i==0){
+          tagword[u2] = textword[i]
+          
+        }else{
+          for (let j = 0; j < tagword.length; j++) {
+            if( textword[i] ==tagword[j] ){
+              chk2 = 1;
+            }
+          
+          }
+          if(chk2==0){
+            u2++;
+            tagword[u2] = textword[i];
+          }
+          if(chk2==1){
+            chk2=0;
+          }
+        }
+ 
+      }
+      console.log( tagword.length);
+      console.log( tagword[0][7]);
+      const KWStr = JSON.stringify(tagword[0]);
+      const keepword = KWStr.split("$");
+      let savee ;
+      const ORGs=[];
+      let Gs =0;
+      let GSs = "";
+
+      const DATEs=[];
+      let Ds =0;
+      let DSs = "";
+
+      const PERSONs=[];
+      let Ps =0;
+      let PSs = "";
+
+      const WORKs=[];
+      let Ws =0;
+      let WSs = "";
+
+      const NORPs=[];
+      let Ns =0;
+      let NSs = "";
+
+      const CARDINALs=[];
+      let Cs =0;
+      let CSs = "";
+
+      const LANGUAGEs=[];
+      let Ls =0;
+      let LSs = "";
+
+      const ORDINALs=[];
+      let Os =0;
+      let OSs = "";
+
+      const GPEs=[];
+      let Es =0;
+      let ESs = "";
+
+      const EVENTs=[];
+      let EVs =0;
+      let EVSs = "";
+
+      const TIMEs=[];
+      let TMs =0;
+      let TMSs = "";
+
+      const LOCs=[];
+      let LCs =0;
+      let LCSs = "";
+
+      const PRODUCTs=[];
+      let PDs =0;
+      let PDSs = "";
+
+      const LAWs=[];
+      let LWs =0;
+      let LWSs = "";
+
+      const FACs=[];
+      let FCs =0;
+      let FCSs = "";
+      
+      for (let i = 0; i < tagword.length; i++) { 
+       
+        for (let j = 0; j < tagword[i].length; j++) {
+          
+          if(tagword[i][j]=="$"){
+            
+            if(tagword[i][j-1]=="a"){
+              
+              for (let k = j+1; k < tagword[i].length; k++){
+                
+                GSs = ""+GSs+tagword[i][k];
+              
+                
+              }
+              
+              ORGs[Gs] = GSs;
+              GSs = "";
+              Gs++;
+             
+            }
+           
+          }
+       
+
+      }
+ 
+      }
+     
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="b"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               DSs = ""+DSs+tagword[i][k];
+             
+               
+             }
+             
+             DATEs[Ds] = DSs;
+             DSs = "";
+             Ds++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="c"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               PSs = ""+PSs+tagword[i][k];
+             
+               
+             }
+             
+             PERSONs[Ps] = PSs;
+             PSs = "";
+             Ps++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="d"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               WSs = ""+WSs+tagword[i][k];
+             
+               
+             }
+             
+             WORKs[Ws] = WSs;
+             WSs = "";
+             Ws++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="e"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               NSs = ""+NSs+tagword[i][k];
+             
+               
+             }
+             
+             NORPs[Ns] = NSs;
+             NSs = "";
+             Ns++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="f"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               CSs = ""+CSs+tagword[i][k];
+             
+               
+             }
+             
+             CARDINALs[Cs] = CSs;
+             CSs = "";
+             Cs++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="g"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               LSs = ""+LSs+tagword[i][k];
+             
+               
+             }
+             
+             LANGUAGEs[Ls] = LSs;
+             LSs = "";
+             Ls++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="h"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               OSs = ""+OSs+tagword[i][k];
+             
+               
+             }
+             
+             ORDINALs[Os] = OSs;
+             OSs = "";
+             Os++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="i"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               ESs = ""+ESs+tagword[i][k];
+             
+               
+             }
+             
+             GPEs[Es] = ESs;
+             ESs = "";
+             Es++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="j"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               EVSs = ""+EVSs+tagword[i][k];
+             
+               
+             }
+             
+             EVENTs[EVs] = EVSs;
+             EVSs = "";
+             EVs++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="k"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               GSs = ""+GSs+tagword[i][k];
+             
+               
+             }
+             
+             TIMEs[TMs] = TMSs;
+             TmSs = "";
+             TMs++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="l"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               LCSs = ""+LCSs+tagword[i][k];
+             
+               
+             }
+             
+             LOCs[LCs] = LCSs;
+             LCSs = "";
+             LCs++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="m"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               PDSs = ""+PDSs+tagword[i][k];
+             
+               
+             }
+             
+             PRODUCTs[PDs] = PDSs;
+             PDSs = "";
+             PDs++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="n"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               LWSs = ""+LWSs+tagword[i][k];
+             
+               
+             }
+             
+             LAWs[LWs] = LWSs;
+             LWSs = "";
+             LWs++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+
+     for (let i = 0; i < tagword.length; i++) { 
+       
+       for (let j = 0; j < tagword[i].length; j++) {
+         
+         if(tagword[i][j]=="$"){
+           
+           if(tagword[i][j-1]=="n"){
+             
+             for (let k = j+1; k < tagword[i].length; k++){
+               
+               FCSs = ""+FCSs+tagword[i][k];
+             
+               
+             }
+             
+             FACs[FCs] = FCSs;
+             FCSs = "";
+             FCs++;
+            
+           }
+          
+         }
+      
+
+     }
+
+     }
+      console.log( ORGs[8]);
+              
+      
+      function ORG() {
+       
+    
+          s.innerHTML = ORGs;
+      }
+
+      function DATE() {
+           s.innerHTML = DATEs;
+   
+       }
+       function PERSON() {
+           s.innerHTML =  PERSONs;
+
+   
+       }
+      
+       function WORK() {
+           s.innerHTML = WORKs;
+   
+       }
+       function NORP() {
+           s.innerHTML = NORPs;
+   
+       }
+       function CARDINAL() {
+           s.innerHTML = CARDINALs;
+   
+       }
+       function LANGUAGE() {
+           s.innerHTML = LANGUAGEs;
+   
+       }
+       function ORDINAL() {
+           s.innerHTML = ORDINALs;
+   
+       }
+       function GPE() {
+           s.innerHTML = GPEs;
+   
+       }
+       function EVENT() {
+           s.innerHTML = EVENTs;
+   
+       }
+       function TIME() {
+           s.innerHTML = TIMEs;
+   
+       }
+       function LOC() {
+           s.innerHTML = LOCs;
+   
+       }
+       function PRODUCT() {
+           s.innerHTML = PRODUCTs;
+   
+       }
+       function LAW() {
+           s.innerHTML = LAWs;
+   
+       }
+       function FAC() {
+           s.innerHTML = FACs;
+   
+       }
+       
+
+      function Berlin() {
+       const input = "ORG";
+        let input1 = "PERSON";
+        
+        //ORG  DATE  PERSON  WORK_OF_ART  NORP  CARDINAL  LANGUAGE  ORDINAL  GPE  EVENT   TIME   LOC  PRODUCT  LAW   FAC
+            
+        if (input != ""){ /*
+          const regExp = [] 
+          for (let i = 0; i < input.length; i++) { 
+            regExp[i] = input[i];
+
+ 
+          }
+          */
+          const regExp = ["computer","DATE","PERSON","WORK_OF_ART","NORP"] ;
+          let te =[];
+          let n =0;
+          let aaa ;
+          let zzz ;
+          regExp[0]= RegExp(input, "gi");
+          regExp[1]= RegExp(input1, "gi");
+          console.log( regExp[0]);
+
+          for (let i = 0; i < regExp.length; i++) {
+            regExp[i]= RegExp(regExp[i], "gi");
+
+
+          }
+          for (let i = 0; i < regExp.length; i++) {
+            te[n] = (s.textContent).replace(regExp[i],
+            "<mark >$&</mark>");
+            aaa = JSON.stringify(te[n]);
+            if(i==0){
+              zzz = aaa;
+
+            }else{
+              zzz = (zzz).replace(regExp[n],"<mark >$&</mark>");
+            }
+            
+            n++;
+
+          }
+       
+          
+          s.innerHTML = zzz;
+          
+        }
+    /*
+        $('.example').highlightWithinTextarea({
+          highlight: /digital?| $(input) |the/gi,
+          className: 'highlight'
+        }); 
+        Here is an example of <mark data-entity='date' > </mark> using the &lt;mark&gt; tag.
+      <textarea class="example" rows="80" cols="262">{% if text0  %}
+        {{text0}}
+       {% endif %}
+      </textarea>
+        */
+      }
+
+      
+      
+      </script>
+    
+    
+    
+      
+</html>
